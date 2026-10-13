@@ -1,0 +1,16 @@
+# CyberSentinel — Production Runtime Dependencies
+# Core Framework & Scanning
+PyQt5>=5.15.0
+python-nmap>=0.7.1
+requests>=2.31.0
+httpx>=0.24.0
+dnspython>=2.3.0
+python-whois>=0.7.4
+python-dotenv>=1.0.0
+jinja2>=3.1.0
+rich>=13.0.0
+
+# Optional AI Providers (Cloud SDKs; HTTP REST fallbacks are built-in)
+anthropic>=0.25.0
+openai>=1.0.0
+google-generativeai>=0.3.0

@@ -1,0 +1,24 @@
+# Common subdomains and web paths for reconnaissance and security audit
+# Defensive and non-destructive path candidates
+admin
+api
+app
+backup
+blog
+config
+dashboard
+dev
+login
+mail
+m
+portal
+robots.txt
+secure
+server-status
+sitemap.xml
+staging
+test
+uploads
+vpn
+webmail
+www

@@ -1,0 +1,86 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cybersentinel"
+version = "1.0.0"
+description = "Automated Penetration Testing Toolkit with AI-Powered Defensive Security Analysis"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name = "CyberSentinel Contributors" }
+]
+keywords = [
+    "cybersecurity",
+    "penetration-testing",
+    "vulnerability-scanner",
+    "reconnaissance",
+    "ai-security",
+    "defensive-security",
+    "security-audit",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Security",
+]
+dependencies = [
+    "requests>=2.31.0",
+    "httpx>=0.24.0",
+    "jinja2>=3.1.0",
+    "python-dotenv>=1.0.0",
+    "dnspython>=2.3.0",
+    "python-whois>=0.7.4",
+    "python-nmap>=0.7.1",
+    "rich>=13.0.0",
+]
+
+[project.optional-dependencies]
+gui = [
+    "PyQt5>=5.15.0",
+]
+ai = [
+    "anthropic>=0.25.0",
+    "openai>=1.0.0",
+    "google-generativeai>=0.3.0",
+]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-mock>=3.10.0",
+]
+all = [
+    "cybersentinel[gui,ai,dev]",
+]
+
+[project.scripts]
+cybersentinel = "cybersentinel.main:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"cybersentinel" = [
+    "gui/*.qss",
+    "reporting/templates/*.html",
+    "wordlists/*.txt",
+]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["tests"]
+pythonpath = ["src"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --strict-markers"

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Attack Report - 127.0.0.1</title>
+    <style>
+        body { font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 0; padding: 0; background: #0f172a; color: #e2e8f0; }
+        .container { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 24px 0 48px; }
+        header { padding: 24px; background: #111827; border: 1px solid #1f2937; border-radius: 18px; margin-bottom: 24px; }
+        h1, h2, h3, h4 { color: #f8fafc; margin: 0; }
+        .meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 18px; }
+        .card { padding: 18px; border-radius: 16px; background: #111827; border: 1px solid #1f2937; }
+        .badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; font-size: 0.92rem; }
+        .badge.critical { background: #7f1d1d; color: #fee2e2; }
+        .badge.high { background: #b45309; color: #fef3c7; }
+        .badge.medium { background: #92400e; color: #fef3c7; }
+        .badge.low { background: #065f46; color: #d1fae5; }
+        .section { margin-top: 24px; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 14px; }
+        .section-header h2 { font-size: 1.35rem; }
+        .panel { background: #111827; border: 1px solid #1f2937; border-radius: 18px; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+        th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid #1f2937; }
+        th { color: #cbd5e1; background: rgba(148, 163, 184, 0.08); }
+        tr:hover { background: rgba(148, 163, 184, 0.06); }
+        .list { list-style: none; padding: 0; margin: 0; }
+        .list li { padding: 8px 0; border-bottom: 1px solid #1f2937; }
+        .muted { color: #94a3b8; }
+        pre { overflow-x: auto; background: #020617; padding: 18px; border-radius: 14px; font-size: 0.95rem; line-height: 1.5; }
+        .footer { margin-top: 28px; padding: 18px 22px; border-radius: 16px; background: #111827; border: 1px solid #1f2937; color: #94a3b8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Pentest Report — 127.0.0.1</h1>
+            <div class="meta">
+                <div class="card"><strong>Generated</strong><div class="muted">2026-04-29 14:00 UTC</div></div>
+                <div class="card"><strong>Risk Level</strong><div class="muted">Critical</div></div>
+                <div class="card"><strong>Findings</strong><div class="muted">0</div></div>
+            </div>
+        </header>
+
+        <div class="section">
+            <div class="section-header"><h2>Summary</h2></div>
+            <div class="panel">
+                <p>WARNING: Only scan targets you own or have explicit authorization to test. Unauthorized scanning may be illegal and unethical.</p>
+                <p><strong>Overall Severity:</strong>
+                    
+                        <span class="badge critical">Critical</span>
+                    
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header"><h2>Recon Data</h2></div>
+            <div class="panel">
+                <p><strong>Target:</strong> 127.0.0.1</p>
+                <p><strong>IP Address:</strong> 127.0.0.1</p>
+                <p><strong>Domain:</strong> 127.0.0.1</p>
+                <p><strong>WHOIS:</strong></p>
+                <pre>WHOIS lookup skipped for numeric IP addresses.</pre>
+                <p><strong>Subdomains:</strong> None found</p>
+                <p><strong>DNS Records:</strong></p>
+                
+                    <p class="muted">DNS records were unavailable.</p>
+                
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header"><h2>Port Scan Results</h2></div>
+            <div class="panel">
+                
+                    
+                        <h3>Port 80</h3>
+                        
+                        <p><strong>Open ports:</strong> None</p>
+                        <table>
+                            <thead><tr><th>Port</th><th>Service</th><th>Protocol</th><th>State</th><th>Reason</th></tr></thead>
+                            <tbody>
+                                
+                                    <tr>
+                                        <td>80</td>
+                                        <td>http</td>
+                                        <td>tcp</td>
+                                        <td>closed</td>
+                                        <td>connection refused</td>
+                                    </tr>
+                                
+                            </tbody>
+                        </table>
+                    
+                        <h3>Port 443</h3>
+                        
+                        <p><strong>Open ports:</strong> None</p>
+                        <table>
+                            <thead><tr><th>Port</th><th>Service</th><th>Protocol</th><th>State</th><th>Reason</th></tr></thead>
+                            <tbody>
+                                
+                                    <tr>
+                                        <td>443</td>
+                                        <td>https</td>
+                                        <td>tcp</td>
+                                        <td>closed</td>
+                                        <td>connection refused</td>
+                                    </tr>
+                                
+                            </tbody>
+                        </table>
+                    
+                
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header"><h2>Web Assessment</h2></div>
+            <div class="panel">
+                <p><strong>Active URL:</strong> N/A</p>
+                <p><strong>HTTP Status:</strong>
+                    
+                        No response
+                    
+                </p>
+                <p><strong>Missing Security Headers:</strong> content-security-policy, strict-transport-security, x-frame-options, x-content-type-options, referrer-policy, permissions-policy, x-xss-protection, cache-control, expect-ct</p>
+                <p><strong>Exposed Paths:</strong> 0</p>
+                
+                <p><strong>Web findings:</strong></p>
+                <ul class="list">
+                    
+                        <li>Target 127.0.0.1 did not respond to HTTP requests.</li>
+                    
+                        <li>Missing security headers may expose the application to common web attacks.</li>
+                    
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header"><h2>AI Analysis</h2></div>
+            <div class="panel">
+                
+                    <p class="muted">No AI analysis available yet.</p>
+                
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Generated by Automated Penetration Testing Toolkit — use only on authorized targets.</p>
+        </div>
+    </div>
+</body>
+</html>

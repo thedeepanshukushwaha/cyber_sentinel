@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CyberSentinel Security Assessment Report - {{ target }}</title>
+    <style>
+        body { font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 0; padding: 0; background: #0f172a; color: #e2e8f0; }
+        .container { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 24px 0 48px; }
+        header { padding: 24px; background: #111827; border: 1px solid #1f2937; border-radius: 18px; margin-bottom: 24px; }
+        h1, h2, h3, h4 { color: #f8fafc; margin: 0; }
+        .meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 18px; }
+        .card { padding: 18px; border-radius: 16px; background: #111827; border: 1px solid #1f2937; }
+        .badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; font-size: 0.92rem; }
+        .badge.critical { background: #7f1d1d; color: #fee2e2; }
+        .badge.high { background: #b45309; color: #fef3c7; }
+        .badge.medium { background: #92400e; color: #fef3c7; }
+        .badge.low { background: #065f46; color: #d1fae5; }
+        .section { margin-top: 24px; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 14px; }
+        .section-header h2 { font-size: 1.35rem; }
+        .panel { background: #111827; border: 1px solid #1f2937; border-radius: 18px; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+        th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid #1f2937; }
+        th { color: #cbd5e1; background: rgba(148, 163, 184, 0.08); }
+        tr:hover { background: rgba(148, 163, 184, 0.06); }
+        .list { list-style: none; padding: 0; margin: 0; }
+        .list li { padding: 8px 0; border-bottom: 1px solid #1f2937; }
+        .muted { color: #94a3b8; }
+        pre { overflow-x: auto; background: #020617; padding: 18px; border-radius: 14px; font-size: 0.95rem; line-height: 1.5; }
+        .footer { margin-top: 28px; padding: 18px 22px; border-radius: 16px; background: #111827; border: 1px solid #1f2937; color: #94a3b8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CyberSentinel Security Assessment — {{ target }}</h1>
+            <div class="meta">
+                <div class="card"><strong>Generated</strong><div class="muted">{{ generated_at }}</div></div>
+                <div class="card"><strong>Risk Level</strong><div class="muted">{{ risk_summary.severity or 'Unknown' }}</div></div>
+                <div class="card"><strong>Findings</strong><div class="muted">{{ findings | length }}</div></div>
+            </div>
+        </header>
+
+        <div class="section">
+            <div class="section-header"><h2>Summary</h2></div>
+            <div class="panel">
+                <p>{{ authorized_use_notice }}</p>
+                <p><strong>Overall Severity:</strong>
+                    {% if risk_summary.severity == 'Critical' %}
+                        <span class="badge critical">Critical</span>
+                    {% elif risk_summary.severity == 'High' %}
+                        <span class="badge high">High</span>
+                    {% elif risk_summary.severity == 'Medium' %}
+                        <span class="badge medium">Medium</span>
+                    {% else %}
+                        <span class="badge low">Low</span>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header"><h2>Recon Data</h2></div>
+            <div class="panel">
+                <p><strong>Target:</strong> {{ recon.target or target }}</p>
+                <p><strong>IP Address:</strong> {{ recon.ip_address or 'N/A' }}</p>
+                <p><strong>Domain:</strong> {{ recon.target or target }}</p>
+                <p><strong>WHOIS:</strong></p>
+                <pre>{{ recon.whois or 'No WHOIS data available.' }}</pre>
+                <p><strong>Subdomains:</strong> {{ recon.subdomains | join(', ') or 'None found' }}</p>
+                <p><strong>DNS Records:</strong></p>
+                {% if recon.dns_records %}
+                    <table>
+                        <thead><tr><th>Type</th><th>Values</th></tr></thead>
+                        <tbody>
+                            {% for record_type, values in recon.dns_records.items() %}
+                                <tr>
+                                    <td>{{ record_type }}</td>
+                                    <td>{{ values | join(', ') or 'None' }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p class="muted">DNS records were unavailable.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header"><h2>Port Scan Results</h2></div>
+            <div class="panel">
+                {% if port_scans %}
+                    {% for scan in port_scans %}
+                        <h3>{{ scan.name | replace('_', ' ') | title }}</h3>
+                        {% set data = scan.data %}
+                        <p><strong>Open ports:</strong> {{ data.open_ports | join(', ') if data.open_ports else 'None' }}</p>
+                        <table>
+                            <thead><tr><th>Port</th><th>Service</th><th>Protocol</th><th>State</th><th>Reason</th></tr></thead>
+                            <tbody>
+                                {% for entry in data.ports %}
+                                    <tr>
+                                        <td>{{ entry.port }}</td>
+                                        <td>{{ entry.service }}</td>
+                                        <td>{{ entry.protocol }}</td>
+                                        <td>{{ entry.state }}</td>
+                                        <td>{{ entry.reason or 'N/A' }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endfor %}
+                {% else %}
+                    <p class="muted">No port scan data available.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header"><h2>Web Assessment</h2></div>
+            <div class="panel">
+                <p><strong>Active URL:</strong> {{ web_assessment.active_url or 'N/A' }}</p>
+                <p><strong>HTTP Status:</strong>
+                    {% if web_assessment.http_response is defined and web_assessment.http_response %}
+                        {{ web_assessment.http_response.status_code or 'No response' }}
+                    {% else %}
+                        No response
+                    {% endif %}
+                </p>
+                <p><strong>Missing Security Headers:</strong> {{ missing_security_headers | join(', ') or 'None' }}</p>
+                <p><strong>Exposed Paths:</strong> {{ exposed_paths | length }}</p>
+                {% if exposed_paths %}
+                    <table>
+                        <thead><tr><th>Path</th><th>Status</th><th>Reason</th></tr></thead>
+                        <tbody>
+                            {% for path in exposed_paths %}
+                                <tr>
+                                    <td>{{ path.path }}</td>
+                                    <td>{{ path.status_code }}</td>
+                                    <td>{{ path.reason }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+                <p><strong>Web findings:</strong></p>
+                <ul class="list">
+                    {% for finding in web_assessment.findings %}
+                        <li>{{ finding }}</li>
+                    {% else %}
+                        <li class="muted">No web findings recorded.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-header"><h2>AI Analysis</h2></div>
+            <div class="panel">
+                {% if ai_analysis.provider %}
+                    <p><strong>Provider:</strong> {{ ai_analysis.provider }}{% if ai_analysis.fallback_from %} (fallback from {{ ai_analysis.fallback_from }}){% endif %}</p>
+                {% endif %}
+                {% if ai_analysis.analysis %}
+                    <pre>{{ ai_analysis.analysis }}</pre>
+                {% elif ai_analysis.error %}
+                    <p class="muted">AI analysis failed: {{ ai_analysis.error }}</p>
+                {% else %}
+                    <p class="muted">No AI analysis available yet.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Generated by Automated Penetration Testing Toolkit — use only on authorized targets.</p>
+        </div>
+    </div>
+</body>
+</html>
